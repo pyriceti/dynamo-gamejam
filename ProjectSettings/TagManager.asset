@@ -5,6 +5,8 @@ TagManager:
   serializedVersion: 2
   tags:
   - Ball
+  - safe_zone
+  - Pushable
   layers:
   - Default
   - TransparentFX
@@ -17,7 +19,7 @@ TagManager:
   - Fixed
   - Mouse_Target
   - Jumpable
-  - 
+  - Pushable
   - 
   - 
   - 

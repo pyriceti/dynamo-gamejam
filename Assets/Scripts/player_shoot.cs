@@ -34,9 +34,7 @@ public class player_shoot : MonoBehaviour {
 
         if (Physics.Raycast(camRay, out target_hit, 20, 1 << floorMask))
         {
-
-//            Debug.Log(holding_time); 
-
+        
             Vector3 playerToMouse = target_hit.point - transform.position;
 
             Debug.DrawLine(this.transform.position, target_hit.point, new Color(255, 0, 0));
