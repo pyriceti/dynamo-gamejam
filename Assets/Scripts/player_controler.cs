@@ -8,7 +8,6 @@ public class player_controler : MonoBehaviour {
 
     [HideInInspector] public bool facingRight = true;
     [HideInInspector] public bool jump = false;
-    public float moveForce = 365f;
     public float maxSpeed = 5f;
     public float jumpForce = 1000f;
     public Transform groundCheck;
@@ -19,6 +18,8 @@ public class player_controler : MonoBehaviour {
     private bool grounded = false;
     //private Animator anim;
     private Rigidbody rb;
+
+    bool safe;
 
 
     // Use this for initialization
@@ -33,10 +34,8 @@ public class player_controler : MonoBehaviour {
     {
         grounded = Physics.Linecast(transform.position, groundCheck.position, 1 << LayerMask.NameToLayer("Ground"));
 
-
         if (Input.GetButtonDown("Jump") && grounded)
         {
-            Debug.Log("jump");
             jump = true;
         }
     }
@@ -48,10 +47,7 @@ public class player_controler : MonoBehaviour {
         bool left_grounded = Physics.Linecast(transform.position, left_check.position, 1 << LayerMask.NameToLayer("Ground"));
         bool right_grounded = Physics.Linecast(transform.position, right_check.position, 1 << LayerMask.NameToLayer("Ground"));
 
-        //Debug.Log("Left : " + left_grounded);
-        //Debug.Log("Right : " + right_grounded);
-
-
+        Debug.Log("Safe : " + safe); 
 
         //anim.SetFloat("Speed", Mathf.Abs(h));
 
@@ -60,18 +56,11 @@ public class player_controler : MonoBehaviour {
             if((h>0 && !right_grounded) || (h<0 && !left_grounded) )
             {
                 rb.velocity = new Vector3(h * maxSpeed, rb.velocity.y, rb.velocity.z);
-                //rb.velocity = new Vector3(rb.velocity.x + h * moveForce, rb.velocity.y, rb.velocity.z) ;
             }
             else{
                 rb.velocity = new Vector3(0, rb.velocity.y, rb.velocity.z);
             }
         }
-
-        //if (Mathf.Abs(rb.velocity.x) > maxSpeed)
-            //rb.velocity = new Vector2(Mathf.Sign(rb.velocity.x) * maxSpeed, rb.velocity.y);
-
-
-
 
         if (h > 0 && !facingRight)
             Flip();
@@ -89,9 +78,26 @@ public class player_controler : MonoBehaviour {
 
     void Flip()
     {
-        //facingRight = !facingRight;
-        //Vector3 theScale = transform.localScale;
-        //theScale.x *= -1;
-        //transform.localScale = theScale;
+        facingRight = !facingRight;
+        Vector3 theScale = transform.localScale;
+        theScale.x *= -1;
+        transform.localScale = theScale;
+    }
+
+    private void OnTriggerStay(Collider other)
+    {
+        if(other.tag =="safe_zone")
+        {
+            safe = true; 
+        }
+    }
+
+    private void OnTriggerExit(Collider other)
+    {
+        if (other.tag == "safe_zone")
+        {
+            safe = false;
+        }
+
     }
 }
