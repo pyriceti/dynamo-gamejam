@@ -16,27 +16,31 @@ public class player_controler : MonoBehaviour {
     public Transform right_check; 
 
 
-    private bool grounded = false;
+    private bool isGrounded = true;
+    
     //private Animator anim;
     private Rigidbody rb;
 
+    private LayerMask fixedMask;
+    private LayerMask jumpableMask;
+    
 
     // Use this for initialization
     void Awake()
     {
         //anim = GetComponent<Animator>();
         rb = GetComponent<Rigidbody>();
+
+        fixedMask = LayerMask.GetMask("Fixed");
+        jumpableMask = LayerMask.GetMask("Jumpable");
     }
 
-    // Update is called once per frame
     void Update()
     {
-        grounded = Physics.Linecast(transform.position, groundCheck.position, 1 << LayerMask.NameToLayer("Ground"));
+//        bool canJump = Physics.Linecast(transform.position, groundCheck.position, jumpableMask)
+//                       || Physics.Linecast(transform.position, groundCheck.position, fixedMask);
 
-
-        if (Input.GetButtonDown("Jump") && grounded)
-        {
-            Debug.Log("jump");
+        if (Input.GetButtonDown("Jump") && isGrounded) {
             jump = true;
         }
     }
@@ -45,8 +49,8 @@ public class player_controler : MonoBehaviour {
     {
         float h = Input.GetAxis("Horizontal");
 
-        bool left_grounded = Physics.Linecast(transform.position, left_check.position, 1 << LayerMask.NameToLayer("Ground"));
-        bool right_grounded = Physics.Linecast(transform.position, right_check.position, 1 << LayerMask.NameToLayer("Ground"));
+        bool left_grounded = Physics.Linecast(transform.position, left_check.position, fixedMask);
+        bool right_grounded = Physics.Linecast(transform.position, right_check.position, fixedMask);
 
         //Debug.Log("Left : " + left_grounded);
         //Debug.Log("Right : " + right_grounded);
@@ -81,12 +85,19 @@ public class player_controler : MonoBehaviour {
         if (jump)
         {
             //anim.SetTrigger("Jump");
-            rb.AddForce(new Vector2(0f, jumpForce));
+            rb.AddForce(new Vector2(0f, jumpForce), ForceMode.Impulse);
             jump = false;
         }
     }
 
+    private void OnCollisionStay() {
+        isGrounded = true;
+    }
 
+    private void OnCollisionExit() {
+        if (isGrounded) isGrounded = false;
+    }
+    
     void Flip()
     {
         //facingRight = !facingRight;
