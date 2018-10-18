@@ -1,14 +1,19 @@
 ﻿using System;
 using System.Collections;
+using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Audio;
 using UnityEngine.UI;
+using Random = UnityEngine.Random;
 
 public class AudioManager : MonoBehaviour {
     public static AudioManager Instance;
 
     public AudioMixer MasterMixer;
     public Slider Slider;
+    public AudioSource SFXSource;
+
+    public List<AudioClip> SfxClips;
 
     public float HealthThreshold = 50f;
     public float BaseSfxVol = -30f;
@@ -32,6 +37,7 @@ public class AudioManager : MonoBehaviour {
         SetMusicLevel(minVol);
         SetSfxLevel(BaseSfxVol);
         MasterMixer.SetFloat("choirsPitch", 1f);
+        StartCoroutine(RandomSfxLoop());
     }
 
     private void Update() {
@@ -95,5 +101,13 @@ public class AudioManager : MonoBehaviour {
 
     public void SetMusicLevel(float musicLevel) {
         MasterMixer.SetFloat("musicVol", musicLevel);
+    }
+
+    private IEnumerator RandomSfxLoop() {
+        while (true) {
+            SFXSource.clip = SfxClips[Random.Range(0, SfxClips.Count)];
+            SFXSource.Play();
+            yield return new WaitForSeconds(Random.Range(5f, 10f));
+        }
     }
 }
