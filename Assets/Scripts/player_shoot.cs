@@ -111,7 +111,7 @@ public class player_shoot : MonoBehaviour {
 
         Physics.IgnoreCollision(ball_shooted.GetComponent<SphereCollider>(), this.GetComponent<BoxCollider>(), true);
 
-        pa.play_sfx(audioClip_throw, 0.75f + 0.25f * holding_time / 2f);
+        pa.play_sfx(audioClip_throw, 0.25f + 0.25f * holding_time / 2f);
 
         holding_time = 0;
         holding = false;

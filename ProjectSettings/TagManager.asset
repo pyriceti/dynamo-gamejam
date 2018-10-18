@@ -8,6 +8,7 @@ TagManager:
   - safe_zone
   - Pushable
   - PlayerModel
+  - GameManager
   layers:
   - Default
   - TransparentFX

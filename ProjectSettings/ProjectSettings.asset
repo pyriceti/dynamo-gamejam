@@ -393,6 +393,7 @@ PlayerSettings:
   switchAllowsVideoCapturing: 1
   switchAllowsRuntimeAddOnContentInstall: 0
   switchDataLossConfirmation: 0
+  switchUserAccountLockEnabled: 0
   switchSupportedNpadStyles: 3
   switchNativeFsCacheSize: 32
   switchIsHoldTypeHorizontal: 0
@@ -618,9 +619,9 @@ PlayerSettings:
     UNet: 1
   facebookSdkVersion: 7.9.4
   apiCompatibilityLevel: 2
-  cloudProjectId: e2a81ea7-062b-4ef9-88d8-2a5fa94bff33
-  projectName: Dynamo (1)
-  organizationId: pyriceti
+  cloudProjectId: d538a366-5657-4946-8edb-14b13f4571c2
+  projectName: Dynamo
+  organizationId: alabamaben
   cloudEnabled: 0
   enableNativePlatformBackendsForNewInputSystem: 0
   disableOldInputManagerSupport: 0
