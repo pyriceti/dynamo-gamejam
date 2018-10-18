@@ -21,6 +21,8 @@ AudioMixerController:
     name: musicVol
   - guid: 1675f51046e95234c9f54c4e85009a9c
     name: sfxVol
+  - guid: 623218929448ebf40a43fcb2a859eac3
+    name: choirsPitch
   m_AudioMixerGroupViews:
   - guids:
     - 84a1865ab0db40f4cbdac4616a74470e
@@ -78,6 +80,7 @@ AudioMixerSnapshotController:
   m_FloatValues:
     127dfb1090a34a543b3c0ccd3dbc9fbc: 0
     161c673039e4aa842903f114e12b5af4: 0
+    623218929448ebf40a43fcb2a859eac3: 1
     d486d1a281f75034fbc2a23a9bb29943: 5
     82e4f583b2352f442b35db253601bf4a: 0
     f9ee842a75b3c71439e0bc0c98197ddc: 0

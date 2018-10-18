@@ -10,7 +10,8 @@ public class AudioManager : MonoBehaviour {
     public AudioMixer MasterMixer;
     public Slider Slider;
 
-    public float HealthThreshold = 25f;
+    public float HealthThreshold = 50f;
+    public float BaseSfxVol = -30f;
 
     private float minVol = -40;
     private float maxVol = 0f;
@@ -29,6 +30,7 @@ public class AudioManager : MonoBehaviour {
 
     private void Start() {
         SetMusicLevel(minVol);
+        SetSfxLevel(BaseSfxVol);
         MasterMixer.SetFloat("choirsPitch", 1f);
     }
 

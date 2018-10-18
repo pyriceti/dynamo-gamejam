@@ -9,6 +9,11 @@ public class movementt : MonoBehaviour
     public float speed;
 
     private Rigidbody rb;
+    private AudioSource audioSource;
+
+    private void Awake() {
+        audioSource = GetComponent<AudioSource>();
+    }
 
     void Start()
     {
@@ -37,5 +42,10 @@ public class movementt : MonoBehaviour
             this.rb.angularVelocity = new Vector3(0, 0, 0);
         }
 
+    }
+
+    private void OnCollisionEnter(Collision other) {
+        if (audioSource != null)
+          audioSource.Play();
     }
 }
