@@ -1,19 +1,25 @@
 ﻿using System;
 using System.Collections;
+using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Audio;
 using UnityEngine.UI;
+using Random = UnityEngine.Random;
 
 public class AudioManager : MonoBehaviour {
     public static AudioManager Instance;
 
     public AudioMixer MasterMixer;
     public Slider Slider;
+    public AudioSource SFXSource;
+
+    public List<AudioClip> SfxClips;
 
     public float HealthThreshold = 50f;
     public float BaseSfxVol = -30f;
 
-    private float minVol = -40;
+    public float MinMusicVol = -40;
+    
     private float maxVol = 0f;
     private float pitchTop = 1.2f;
     private float pitchVarianceSpeed = .2f;
@@ -29,14 +35,15 @@ public class AudioManager : MonoBehaviour {
     }
 
     private void Start() {
-        SetMusicLevel(minVol);
+        SetMusicLevel(MinMusicVol);
         SetSfxLevel(BaseSfxVol);
         MasterMixer.SetFloat("choirsPitch", 1f);
+        StartCoroutine(RandomSfxLoop());
     }
 
     private void Update() {
         var health = Slider.value;
-        var newLevel = health * minVol / 100;
+        var newLevel = health * MinMusicVol / 100;
         float currentVol;
         MasterMixer.GetFloat("musicVol", out currentVol);
         SetMusicLevel(Mathf.Lerp(currentVol, newLevel, Time.deltaTime));
@@ -45,13 +52,13 @@ public class AudioManager : MonoBehaviour {
         MasterMixer.GetFloat("choirsPitch", out currentPitch);
 
         if (health < HealthThreshold && !pitchGoingUp && Math.Abs(currentPitch - pitchTop) > float.Epsilon)
-            StartCoroutine(ToHightPitch());
+            StartCoroutine(ToHighPitch());
         else if (health >= HealthThreshold && !pitchGoingDown && Math.Abs(currentPitch - 1f) > float.Epsilon) {
             StartCoroutine(ToNormalPitch());
         }
     }
 
-    private IEnumerator ToHightPitch() {
+    private IEnumerator ToHighPitch() {
         pitchGoingUp = true;
         pitchGoingDown = false;
         float time = 0f;
@@ -95,5 +102,16 @@ public class AudioManager : MonoBehaviour {
 
     public void SetMusicLevel(float musicLevel) {
         MasterMixer.SetFloat("musicVol", musicLevel);
+    }
+
+    private IEnumerator RandomSfxLoop() {
+        while (true) {
+            if (!SFXSource.isPlaying) {
+                SFXSource.clip = SfxClips[Random.Range(0, SfxClips.Count)];
+                SFXSource.Play();
+                yield return new WaitForSeconds(Random.Range(7.5f, 10f));
+            }
+            else yield return new WaitForSeconds(1f);
+        }
     }
 }
