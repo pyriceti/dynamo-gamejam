@@ -10,6 +10,8 @@ public class AudioManager : MonoBehaviour {
     public AudioMixer MasterMixer;
     public Slider Slider;
 
+    public float HealthThreshold = 25f;
+
     private float minVol = -40;
     private float maxVol = 0f;
     private float pitchTop = 1.2f;
@@ -40,9 +42,9 @@ public class AudioManager : MonoBehaviour {
         float currentPitch;
         MasterMixer.GetFloat("choirsPitch", out currentPitch);
 
-        if (health < 95 && !pitchGoingUp && Math.Abs(currentPitch - pitchTop) > float.Epsilon)
+        if (health < HealthThreshold && !pitchGoingUp && Math.Abs(currentPitch - pitchTop) > float.Epsilon)
             StartCoroutine(ToHightPitch());
-        else if (health >= 95 && !pitchGoingDown && Math.Abs(currentPitch - 1f) > float.Epsilon) {
+        else if (health >= HealthThreshold && !pitchGoingDown && Math.Abs(currentPitch - 1f) > float.Epsilon) {
             StartCoroutine(ToNormalPitch());
         }
     }
