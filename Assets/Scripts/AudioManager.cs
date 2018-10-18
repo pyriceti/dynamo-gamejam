@@ -12,8 +12,8 @@ public class AudioManager : MonoBehaviour {
 
     private float minVol = -40;
     private float maxVol = 0f;
-    private float pitchTop = 1.5f;
-    private float pitchVarianceSpeed = .4f;
+    private float pitchTop = 1.2f;
+    private float pitchVarianceSpeed = .2f;
 
     private bool pitchGoingUp;
     private bool pitchGoingDown;
