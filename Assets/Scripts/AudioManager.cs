@@ -18,7 +18,8 @@ public class AudioManager : MonoBehaviour {
     public float HealthThreshold = 50f;
     public float BaseSfxVol = -30f;
 
-    private float minVol = -40;
+    public float MinMusicVol = -40;
+    
     private float maxVol = 0f;
     private float pitchTop = 1.2f;
     private float pitchVarianceSpeed = .2f;
@@ -34,7 +35,7 @@ public class AudioManager : MonoBehaviour {
     }
 
     private void Start() {
-        SetMusicLevel(minVol);
+        SetMusicLevel(MinMusicVol);
         SetSfxLevel(BaseSfxVol);
         MasterMixer.SetFloat("choirsPitch", 1f);
         StartCoroutine(RandomSfxLoop());
@@ -42,7 +43,7 @@ public class AudioManager : MonoBehaviour {
 
     private void Update() {
         var health = Slider.value;
-        var newLevel = health * minVol / 100;
+        var newLevel = health * MinMusicVol / 100;
         float currentVol;
         MasterMixer.GetFloat("musicVol", out currentVol);
         SetMusicLevel(Mathf.Lerp(currentVol, newLevel, Time.deltaTime));
@@ -51,13 +52,13 @@ public class AudioManager : MonoBehaviour {
         MasterMixer.GetFloat("choirsPitch", out currentPitch);
 
         if (health < HealthThreshold && !pitchGoingUp && Math.Abs(currentPitch - pitchTop) > float.Epsilon)
-            StartCoroutine(ToHightPitch());
+            StartCoroutine(ToHighPitch());
         else if (health >= HealthThreshold && !pitchGoingDown && Math.Abs(currentPitch - 1f) > float.Epsilon) {
             StartCoroutine(ToNormalPitch());
         }
     }
 
-    private IEnumerator ToHightPitch() {
+    private IEnumerator ToHighPitch() {
         pitchGoingUp = true;
         pitchGoingDown = false;
         float time = 0f;
