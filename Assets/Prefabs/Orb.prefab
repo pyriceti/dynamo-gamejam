@@ -182,10 +182,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   duration: 1
-  lt: {fileID: 108341205777691660}
   intensityFactor: 0.01
-  orb: {fileID: 54310231079843664}
-  orbMat: {fileID: 0}
+  rangeMax: 8
+  rangeMin: 4
 --- !u!114 &114333243998796664
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -204,11 +203,11 @@ Halo:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1890222255028306}
-  m_Enabled: 0
+  m_Enabled: 1
   m_Color:
     serializedVersion: 2
     rgba: 4294967295
-  m_Size: -0.001
+  m_Size: 0
 --- !u!135 &135583139240926318
 SphereCollider:
   m_ObjectHideFlags: 1

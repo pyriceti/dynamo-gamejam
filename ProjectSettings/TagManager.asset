@@ -9,6 +9,9 @@ TagManager:
   - Pushable
   - PlayerModel
   - GameManager
+  - PLAY
+  - WIN_ZONE
+  - ground
   layers:
   - Default
   - TransparentFX

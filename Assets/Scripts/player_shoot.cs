@@ -24,15 +24,20 @@ public class player_shoot : MonoBehaviour {
 
 
     public AudioClip audioClip_throw;
-    public AudioClip audioClip_magnet; 
+    public AudioClip audioClip_magnet;
 
+    LineRenderer gunLine;                           // Reference to the line renderer.
+
+    bool draw_line = false; 
 
     void Start () {
         holding = false;
         holding_time = 0.0f;
         ball_ready = true;
 
-        pa = GetComponent<player_audio>(); 
+        pa = GetComponent<player_audio>();
+
+        gunLine = GetComponent<LineRenderer>();
 
     }
 
@@ -54,6 +59,10 @@ public class player_shoot : MonoBehaviour {
 
             if (Physics.Raycast(camRay, out target_hit, 20, 1 << floorMask))
             {
+                gunLine.SetPosition(0, new Vector3(transform.position.x, transform.position.y, 0));
+                gunLine.SetPosition(1, new Vector3(target_hit.point.x, target_hit.point.y, 0));
+
+                Debug.Log(target_hit.point);
 
                 playerToMouse = target_hit.point - transform.position;
 
@@ -67,6 +76,10 @@ public class player_shoot : MonoBehaviour {
                 if (Input.GetButtonDown("Fire1") && ball_ready)
                 {
                     holding = true;
+                    if(draw_line)
+                    {
+                        gunLine.enabled = true;
+                    }
                 }
 
                 if (Input.GetButtonUp("Fire1") && ball_ready)
@@ -85,6 +98,7 @@ public class player_shoot : MonoBehaviour {
         }
         else
         {
+            gunLine.enabled = false;
             air_time += Time.deltaTime;
         }
 

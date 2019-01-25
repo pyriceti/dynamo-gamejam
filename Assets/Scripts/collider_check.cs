@@ -19,8 +19,11 @@ public class collider_check : MonoBehaviour {
     public bool HasCollision;
     private void OnTriggerStay(Collider other)
     {
-        HasCollision = true;
-        layer = other.gameObject.layer;
+        if(other.gameObject.layer == LayerMask.NameToLayer("Fixed") || other.gameObject.layer == LayerMask.NameToLayer("Pushable"))
+        {
+            HasCollision = true;
+            layer = other.gameObject.layer;
+        }
         //Debug.Log(layer);
     }
 

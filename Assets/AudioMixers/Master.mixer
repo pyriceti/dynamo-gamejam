@@ -21,6 +21,10 @@ AudioMixerController:
     name: musicVol
   - guid: 1675f51046e95234c9f54c4e85009a9c
     name: sfxVol
+  - guid: 161c673039e4aa842903f114e12b5af4
+    name: creep1Vol
+  - guid: f9ee842a75b3c71439e0bc0c98197ddc
+    name: creep2Vol
   - guid: 623218929448ebf40a43fcb2a859eac3
     name: choirsPitch
   m_AudioMixerGroupViews:
@@ -79,14 +83,14 @@ AudioMixerSnapshotController:
   m_AudioMixer: {fileID: 24100000}
   m_SnapshotID: f871f2a3b1e33c240b90c4262a0655f3
   m_FloatValues:
-    127dfb1090a34a543b3c0ccd3dbc9fbc: 0
-    161c673039e4aa842903f114e12b5af4: 0
+    127dfb1090a34a543b3c0ccd3dbc9fbc: -19.928473
+    161c673039e4aa842903f114e12b5af4: -19.928473
     623218929448ebf40a43fcb2a859eac3: 1
-    d486d1a281f75034fbc2a23a9bb29943: 5
+    d486d1a281f75034fbc2a23a9bb29943: -14.995872
     82e4f583b2352f442b35db253601bf4a: 0
-    f9ee842a75b3c71439e0bc0c98197ddc: 0
-    d43f966bf73345448a610b969dce65f9: 0
-    391c545f6f3ce274aa19a9d48198bca7: 5
+    f9ee842a75b3c71439e0bc0c98197ddc: -19.928473
+    d43f966bf73345448a610b969dce65f9: -19.928473
+    391c545f6f3ce274aa19a9d48198bca7: -14.995872
   m_TransitionOverrides: {}
 --- !u!243 &243001853621221960
 AudioMixerGroupController:
