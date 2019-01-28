@@ -2,8 +2,8 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class player_shoot : MonoBehaviour {
-
+public class player_shoot : MonoBehaviour
+{
     player_audio pa;
     public Animator anim;
 
@@ -17,20 +17,21 @@ public class player_shoot : MonoBehaviour {
 
     bool ball_ready;
 
-    [HideInInspector]
-    public bool holding;
-    [HideInInspector]
-    public float holding_time;
+    [HideInInspector] public bool holding;
+    [HideInInspector] public float holding_time;
 
 
     public AudioClip audioClip_throw;
     public AudioClip audioClip_magnet;
 
-    LineRenderer gunLine;                           // Reference to the line renderer.
+    LineRenderer gunLine; // Reference to the line renderer.
 
-    bool draw_line = false; 
+    bool draw_line = false;
 
-    void Start () {
+    private player_controller playerController;
+
+    void Start()
+    {
         holding = false;
         holding_time = 0.0f;
         ball_ready = true;
@@ -39,6 +40,7 @@ public class player_shoot : MonoBehaviour {
 
         gunLine = GetComponent<LineRenderer>();
 
+        playerController = GetComponent<player_controller>();
     }
 
 
@@ -46,9 +48,8 @@ public class player_shoot : MonoBehaviour {
 
     Vector3 playerToMouse;
 
-    void Update () {
-
-
+    void Update()
+    {
         if (ball_ready)
         {
             Ray camRay = Camera.main.ScreenPointToRay(Input.mousePosition);
@@ -62,7 +63,7 @@ public class player_shoot : MonoBehaviour {
                 gunLine.SetPosition(0, new Vector3(transform.position.x, transform.position.y, 0));
                 gunLine.SetPosition(1, new Vector3(target_hit.point.x, target_hit.point.y, 0));
 
-                Debug.Log(target_hit.point);
+                // Debug.Log(target_hit.point);
 
                 playerToMouse = target_hit.point - transform.position;
 
@@ -76,7 +77,7 @@ public class player_shoot : MonoBehaviour {
                 if (Input.GetButtonDown("Fire1") && ball_ready)
                 {
                     holding = true;
-                    if(draw_line)
+                    if (draw_line)
                     {
                         gunLine.enabled = true;
                     }
@@ -84,12 +85,12 @@ public class player_shoot : MonoBehaviour {
 
                 if (Input.GetButtonUp("Fire1") && ball_ready)
                 {
-                    player_controler player_Controler = GetComponent<player_controler>();
-                    
-                    if (player_Controler.facingRight && playerToMouse.x < 0f || !player_Controler.facingRight && playerToMouse.x > 0f)
+                    if (playerController.facingRight && playerToMouse.x < 0f ||
+                        !playerController.facingRight && playerToMouse.x > 0f)
                     {
-                        player_Controler.Flip();
+                        playerController.Flip();
                     }
+
                     ball_ready = false;
 
                     anim.SetTrigger("Throw");
@@ -102,14 +103,14 @@ public class player_shoot : MonoBehaviour {
             air_time += Time.deltaTime;
         }
 
-        if(air_time>1f && ball_shooted != null)
+        if (air_time > 1f && ball_shooted != null)
         {
-            if(ball_shooted.GetComponent<SphereCollider>())
+            if (ball_shooted.GetComponent<SphereCollider>())
             {
-                Physics.IgnoreCollision(ball_shooted.GetComponent<SphereCollider>(), this.GetComponent<BoxCollider>(), false);
+                Physics.IgnoreCollision(ball_shooted.GetComponent<SphereCollider>(), this.GetComponent<BoxCollider>(),
+                    false);
             }
         }
-
     }
 
     GameObject ball_shooted;
@@ -134,13 +135,15 @@ public class player_shoot : MonoBehaviour {
 
     private void FixedUpdate()
     {
-        if(is_magneting_ball && magnet_ball!= null)
+        if (is_magneting_ball && magnet_ball != null)
         {
-            delta += Time.deltaTime; 
+            delta += Time.deltaTime;
             if ((magnet_ball.transform.position - ball.transform.position).magnitude > 0.2)
             {
                 //magnet_ball.transform.position = Vector3.Lerp(magnet_ball.transform.position, ball.transform.position, 0.4f);
-                magnet_ball.transform.position = magnet_ball.transform.position + (ball.transform.position - magnet_ball.transform.position).normalized * delta*delta * 2;
+                magnet_ball.transform.position = magnet_ball.transform.position +
+                                                 (ball.transform.position - magnet_ball.transform.position).normalized *
+                                                 delta * delta * 2;
             }
             else
             {
@@ -149,28 +152,24 @@ public class player_shoot : MonoBehaviour {
                 ball.SetActive(true);
                 ball_ready = true;
                 Object.Destroy(magnet_ball);
-                is_magneting_ball = false; 
+                is_magneting_ball = false;
             }
-
         }
     }
 
 
     bool is_magneting_ball;
-    float delta; 
-    GameObject magnet_ball; 
+    float delta;
+    GameObject magnet_ball;
+
     private void OnCollisionEnter(Collision collision)
     {
-        if(collision.collider.tag == "Ball" && air_time >1f)
-        {
-            is_magneting_ball = true;
-            magnet_ball = collision.gameObject;
-            Object.Destroy(magnet_ball.GetComponent<Rigidbody>());
-            Object.Destroy(magnet_ball.GetComponent<SphereCollider>());
-            delta = 0; 
+        if (!collision.collider.CompareTag("Ball") || !(air_time > 1f)) return;
 
-        }
+        is_magneting_ball = true;
+        magnet_ball = collision.gameObject;
+        Object.Destroy(magnet_ball.GetComponent<Rigidbody>());
+        Object.Destroy(magnet_ball.GetComponent<SphereCollider>());
+        delta = 0;
     }
-
-
 }
